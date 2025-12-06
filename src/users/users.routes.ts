@@ -1,17 +1,18 @@
 import { Router } from "express";
-import { UsersRepository } from "./users.repository";
-import { UsersService } from "./users.service";
 import { UsersController } from "./users.controller";
 
-const router = Router();
+/**
+ * Functional route setup.
+ * Instead of creating dependencies here,
+ * we accept a controller instance from the module factory.
+ */
+export function createUsersRoutes(controller: UsersController): Router {
+  const router = Router();
 
-// Manual DI chain: Repository → Service → Controller
-const repo = new UsersRepository();
-const service = new UsersService(repo);
-const controller = new UsersController(service);
+  // Map routes to controller methods
+  router.get("/", controller.getUsers);
+  router.get("/:id", controller.getUser);
+  router.post("/", controller.createUser);
 
-router.get("/", controller.getUsers);
-router.get("/:id", controller.getUser);
-router.post("/", controller.createUser);
-
-export default router;
+  return router;
+}
