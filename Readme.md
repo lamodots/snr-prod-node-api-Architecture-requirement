@@ -20,17 +20,45 @@ Break your app into feature-based modules
 ```bash
 src/
   users/
-    users.model.ts
-    users.repository.ts
-    users.service.ts
-    users.controller.ts
-    users.routes.ts
+    users.model.ts           # TypeScript interface or Prisma type for User
+    users.repository.ts      # Handles DB queries via Prisma
+    users.service.ts         # Business logic layer
+    users.controller.ts      # HTTP request handlers
+    users.routes.ts          # Route definitions (uses controller methods)
+    users.module.ts          # Factory function to wire DI and return router
+  products/
+    products.model.ts        # TypeScript interface or Prisma type for Product
+    products.repository.ts   # Handles DB queries via Prisma
+    products.service.ts      # Business logic layer
+    products.controller.ts   # HTTP request handlers
+    products.routes.ts       # Route definitions (uses controller methods)
+    products.module.ts       # Factory function to wire DI and return router
+  services/
+    emails/
+      email.service.ts       # Business logic for sending emails
+      nodemailer.client.ts   # Nodemailer configuration and transport setup
+    payments/
+      paystack.service.ts    # Paystack integration for payment processing
+    sms/
+      twilio.service.ts      # Twilio integration for sending SMS
+    storage/
+      s3.service.ts          # AWS S3 integration for file storage
+  views/
+    emails/
+      reset-password.email.pug   # Pug template for password reset email
+      verify-account.email.pug   # Pug template for account verification email
+      welcome.email.pug          # Pug template for welcome email
   common/
-    prisma.ts
-    /middleware
-    /utils
-  app.ts
-  server.ts
+    prisma.ts                # Shared Prisma client instance
+    middleware/
+      errorHandler.ts        # Centralized error handling
+      requestLogger.ts       # Optional: logs incoming requests
+    utils/
+      formatResponse.ts      # Optional: helper for consistent API responses
+  generated/                 # Auto-generated types or artifacts (e.g., Prisma client)
+  app.ts                     # Initializes Express app and registers modules
+  server.ts                  # Starts the server                 # Starts the server
+
 
 ```
 
