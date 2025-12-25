@@ -2,6 +2,8 @@ import { Router } from "express";
 import { UsersRepository } from "./users.repository";
 import { UsersService } from "./users.service";
 import { UsersController } from "./users.controller";
+import { validateBody } from "../common/middleware/zodValidation.middleware";
+import { createUserBodySchema } from "./users.validation";
 
 const router = Router();
 
@@ -12,6 +14,6 @@ const controller = new UsersController(service);
 
 router.get("/", controller.getUsers);
 router.get("/:id", controller.getUser);
-router.post("/", controller.createUser);
+router.post("/", validateBody(createUserBodySchema), controller.createUser);
 
 export default router;
